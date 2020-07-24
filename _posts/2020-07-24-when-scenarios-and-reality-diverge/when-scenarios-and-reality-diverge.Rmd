@@ -1,18 +1,20 @@
 ---
 title: "When Scenarios and Reality Diverge"
-description: |
-  A short description of the post.
-Vincent Jerosch-Herold
+author:
+  - name: Vincent Jerosch-Herold
+    url: https://github.com/vintented
 date: 07-24-2020
-output:
+output: 
+  distill::distill_article:
+  toc: true
+  toc_depth: 2
+  toc_float: yes
+  self_contained: true
   css: bootstrap.min.css
   code_folding: show
   theme: flatly
-  toc: yes
-  toc_depth: 2
-  toc_float: yes
-  distill::distill_article:
-    self_contained: false
+categories:
+  - other
 ---
 
 ```{r setup, include=FALSE}
