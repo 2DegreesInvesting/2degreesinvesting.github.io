@@ -1,0 +1,37 @@
+---
+title: "Stable vs. Bleeding Edge"
+description: |
+  A short description of the post.
+author:
+  - name: Jackson Hoffart
+    url: https://github.com/jdhoffa
+date: 2020-08-05
+output:
+  distill::distill_article:
+  toc: true
+  self_contained: true
+categories:
+  - r2dii
+  - programming
+twitter:
+  site: "@jdhoffart"
+  creator: "@jdhoffart"
+editor_options: 
+  chunk_output_type: console
+---
+
+The `r2dii` packages are a suite of R packages that help users implement some of 2DII's common analysis tasks easily in R (check out [this post](https://2degreesinvesting.github.io/posts/2020-06-30-r2dii-suite-is-now-on-cran/)). As these packages are still in active development, it can become confusing for users to know which version of the package they have installed/ are using and where to find information and help for their version.
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE,
+  comment = "#>",
+  collapse = TRUE,
+  cache = TRUE
+)
+```
+
+## What Version of my Package is Installed?
+As of now, every open source package that 2DII writes has a life on [GitHub](https://github.com/). This is where we keep track of every little change we make to the code, 
+
+
