@@ -1,0 +1,115 @@
+---
+title: "r2dii-plot-0-2-0"
+description: |
+  New styling functions, new arguments to `plot_*()`, and bug fixes.
+author:
+  - name: Mauro Lepore
+    url: https://github.com/maurolepore
+base_url: https://2degreesinvesting.github.io/
+date: 2021-10-18
+output: 
+  distill::distill_article:
+    toc: true
+    toc_depth: 3
+    self_contained: true
+categories:
+  - r2dii
+  - package
+  - release
+preview: preview.jpg
+twitter:
+  site: "@mauro_lepore"
+  creator: "@mauro_lepore"
+draft: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE,
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+r2dii-plot 0.2.0 is now on CRAN. This is a minor release with new features,
+enhancements and bug fixes. This post focuses on the new features. For
+everything else see the
+[changelog](https://2degreesinvesting.github.io/r2dii.plot/news/).
+
+You can install r2dii.plot from CRAN with:
+
+```r
+install.packages("r2dii.plot")
+```
+
+And you can use it with `library()`. Here we'll also use the ggplot2 package.
+
+```{r}
+library(ggplot2, warn.conflicts = FALSE)
+library(r2dii.plot)
+```
+
+### New styling functions
+
+A new family of functions help you apply 2DII colour palettes to any plot. 
+
+Note this plot uses data and functions from the ggplot2 package exclusively.
+
+```{r}
+p <- ggplot(mpg) + geom_point(aes(displ, hwy, color = class))
+p
+```
+
+You can now use r2dii.plot to apply 2DII's colour scale with:
+
+```{r}
+p + scale_colour_r2dii()
+```
+
+To discover other functions in the "2dii scale" family run
+`?scale_colour_r2dii()` and navigate to the section "See also".
+
+### New arguments to `plot_*()`
+
+The `plot_*()` functions gained new arguments to replicate features of the
+`qplot_*()` functions.
+
+For example, compare these two plots. Note the shorter (5 years) time span and
+nicer legend labels in the plot created with `qplot_*()`.
+
+```{r}
+data <- subset(sda, sector == "cement")
+
+qplot_emission_intensity(data)
+
+plot_emission_intensity(data)
+```
+
+You can now replicate those features of `qplot_*()` with the new arguments
+`span_5yr` and `convert_label`:
+
+```{r}
+plot_emission_intensity(data, span_5yr = TRUE, convert_label = to_title)
+```
+
+## Acknowledgements
+
+```{r Acknowledgements, echo=FALSE}
+# bash
+# git shortlog --summary tag-oldrel..tag-release
+# For example: Who contributed to r2dii.match 0.0.2 (since 0.0.1)?
+# git shortlog --summary 0.0.1..0.0.2
+
+thank <- function(x) {
+  x <- sort(x)
+  paste0("[", x, "]", sprintf("(https://github.com/%s)", x), collapse = ", ")
+}
+contributors <- c(
+  "AlexAxthelm",
+  "maurolepore",
+  "MonikaFu"
+)
+```
+
+Thanks to [\@cjyetman](https://github.com/cjyetman) for [proposing the `scale_*()` functions](https://github.com/2DegreesInvesting/r2dii.plot/issues/28), to [\@georgeharris2deg](https://github.com/georgeharris2deg) for reporting bugs,
+and to all contributors to this release (`r thank(contributors)`).
