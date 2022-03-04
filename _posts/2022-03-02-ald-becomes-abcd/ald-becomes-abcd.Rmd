@@ -1,0 +1,131 @@
+---
+title: "PACTA Terminology Update: ALD becomes ABCD"
+description: |
+  Explaining the decision to change terminology from Asset-Level Data to 
+  Asset-Based Company Data.
+author:
+  - name: Jackson Hoffart
+    url: https://github.com/jdhoffa
+date: 2022-03-02
+output: 
+  distill::distill_article:
+  toc: true
+  toc_depth: 3
+  self_contained: true
+categories:
+  - methodology
+preview: preview.jpg
+twitter:
+  site: "@jdhoffart"
+  creator: "@jdhoffart"
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+``` {r packages, echo=FALSE}
+suppressPackageStartupMessages(library(dplyr))
+library(r2dii.data)
+library(gt)
+```
+
+The PACTA team has recently decided to update the terminology used to refer to a
+crucial dataset. The dataset that was previously known as "Asset-Level Data"
+(ALD) will henceforth be referred to as "Asset-Based Company Data" (ABCD). This 
+note explains our reasoning. 
+
+## Explanation
+
+The PACTA methodology depends fundamentally on 3 input datasets:
+
+- Portfolio data (portfolios, loanbooks, etc.)
+- Climate change mitigation scenarios
+- Data on the production of physical assets 
+
+Historically, this last dataset was referred to as the "Asset-Level Data" (ALD). 
+This name was a natural choice, since the underlying data describes the 
+production of physical assets that are owned and operated by various companies 
+globally.
+
+One might imagine an asset-level dataset containing the following information:
+
+``` {r, echo = FALSE}
+
+ald <- tibble::tribble(
+  ~asset_id,          ~asset_name, ~sector,     ~technology, ~year, ~production, ~production_unit, ~plant_location,
+         1L,        "a wind farm", "power", "renewablescap", 2020L,        100L,             "MW",            "ES",
+         1L,        "a wind farm", "power", "renewablescap", 2025L,        200L,             "MW",            "ES",
+         2L, "a coal-fired plant", "power",       "coalcap", 2020L,        500L,             "MW",            "DE",
+         2L, "a coal-fired plant", "power",       "coalcap", 2025L,        300L,             "MW",            "DE"
+  )
+
+ald %>% 
+  gt() %>%
+  tab_header(
+    title = "Asset-Level Data"
+  ) %>% 
+  cols_label(
+    asset_id = "Asset ID",
+    asset_name = "Asset Name",
+    sector = "Sector",
+    technology = "Technology",
+    year = "Year",
+    production = "Capacity",
+    production_unit = "Capacity Unit",
+    plant_location = "Plant Location"
+  )
+
+```
+
+In the table above, data is given out directly at the level of the physical 
+asset.
+
+However, what is actually used in PACTA has already been pre-processed. It looks
+something like this:
+
+``` {r, echo = FALSE}
+
+ald_demo %>%
+  head() %>%  
+  select(
+    company_id, 
+    name_company, 
+    sector, 
+    technology, 
+    year, 
+    production, 
+    production_unit, 
+    plant_location, 
+    country_of_domicile
+    ) %>% 
+  gt() %>%
+  tab_header(
+    title = "Asset-Based Company Data"
+  ) %>% 
+  cols_label(
+    company_id = "Company ID",
+    name_company = "Company Name",
+    sector = "Sector",
+    technology = "Technology",
+    year = "Year",
+    production = "Capacity",
+    production_unit = "Capacity Unit",
+    plant_location = "Plant Location",
+    country_of_domicile = "Country of Domicile"
+  )
+
+```
+
+Notice that, while the data itself is based on information at the physical
+asset-level, it has already been connected to owning companies. In fact, the
+production and/or capacity of each physical asset has been aggregated to every
+company that owns a portion of it, all the way up the corporate tree. In this 
+sense, the data is not really at the "Asset-Level" but rather the 
+"Company-Level".
+
+Though a subtle point, this discrepancy has caused some confusion, and given how
+crucial the dataset is to the operation of PACTA, we have elected to give it a 
+more clear name. Henceforth, we will now refer to this data as 
+"Asset-Based Company Data" or ABCD.
