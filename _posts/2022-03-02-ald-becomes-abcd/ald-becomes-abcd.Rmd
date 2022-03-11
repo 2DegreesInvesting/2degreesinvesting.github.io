@@ -120,7 +120,7 @@ company_data %>%
 ```
 
 Notice that, while the data itself is based on information at the physical
-asset-level, it has already been aggregated to the company level, by ownership
-stake. In this sense, the data is not really at the "Asset-Level" but rather the
-"Company-Level". We therefor consider "Asset-Based Company Data" it to be a more 
+asset-level, it has already been aggregated to the company level (by ownership
+stake). In this sense, the data is not at the "Asset-Level" but rather the
+"Company-Level". We therefor consider "Asset-Based Company Data" to be a more 
 accurate name for the data provided. 
