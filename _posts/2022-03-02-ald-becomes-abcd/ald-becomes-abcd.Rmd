@@ -40,8 +40,9 @@ note explains our reasoning.
 
 The PACTA methodology depends fundamentally on 3 input datasets:
 
-- Portfolio data (portfolios, loanbooks, etc.)
-- Climate change mitigation scenarios
+- Portfolio data (e.g. portfolios, loanbooks, etc.)
+- Climate change mitigation scenarios (e.g. International Energy Agency's - 
+Sustainable Development Scenario )^[https://www.transitionmonitor.com/pacta-for-banks-2020/methodology-and-supporting-materials/]
 - Data on the production of physical assets 
 
 Historically, this last dataset was referred to as the "Asset-Level Data" (ALD). 
@@ -49,7 +50,7 @@ This name was a natural choice, since the underlying data describes the
 production of physical assets that are owned and operated by various companies 
 globally.
 
-One might imagine an asset-level dataset containing the following information:
+An asset-level dataset might contain the following information:
 
 ``` {r, echo = FALSE}
 
@@ -82,24 +83,25 @@ ald %>%
 In the table above, data is given out directly at the level of the physical 
 asset.
 
-However, what is actually used in PACTA has already been pre-processed. It looks
-something like this:
+However, while it is possible to run PACTA using data at the asset-level, the
+back-end for both the PACTA for Investors online tool, and the free data-set
+provided for the PACTA for Banks desktop tool have been pre-processed. The
+actual data used has already been aggregated from the asset-level, to the
+company-level (for all companies owning the assets):
 
 ``` {r, echo = FALSE}
 
-ald_demo %>%
-  head() %>%  
-  select(
-    company_id, 
-    name_company, 
-    sector, 
-    technology, 
-    year, 
-    production, 
-    production_unit, 
-    plant_location, 
-    country_of_domicile
-    ) %>% 
+company_data <- tibble::tribble(
+  ~company_id,     ~name_company, ~sector,     ~technology, ~year, ~production, ~production_unit, ~plant_location,
+  "3", "renewables inc.", "power", "renewablescap", 2013L, 11347.84804,             "MW",            "AS",
+  "3", "renewables inc.", "power", "renewablescap", 2014L,  11744.7738,             "MW",            "AS",
+  "3", "renewables inc.", "power", "renewablescap", 2015L, 12141.69955,             "MW",            "AS",
+  "3", "renewables inc.", "power", "renewablescap", 2016L,  12538.6253,             "MW",            "AS",
+  "3", "renewables inc.", "power", "renewablescap", 2017L, 12935.55106,             "MW",            "AS",
+  "3", "renewables inc.", "power", "renewablescap", 2018L, 13332.47681,             "MW",            "AS"
+)
+
+company_data %>% 
   gt() %>%
   tab_header(
     title = "Asset-Based Company Data"
@@ -112,20 +114,13 @@ ald_demo %>%
     year = "Year",
     production = "Capacity",
     production_unit = "Capacity Unit",
-    plant_location = "Plant Location",
-    country_of_domicile = "Country of Domicile"
+    plant_location = "Plant Location"
   )
 
 ```
 
 Notice that, while the data itself is based on information at the physical
-asset-level, it has already been connected to owning companies. In fact, the
-production and/or capacity of each physical asset has been aggregated to every
-company that owns a portion of it, all the way up the corporate tree. In this 
-sense, the data is not really at the "Asset-Level" but rather the 
-"Company-Level".
-
-Though a subtle point, this discrepancy has caused some confusion, and given how
-crucial the dataset is to the operation of PACTA, we have elected to give it a 
-more clear name. Henceforth, we will now refer to this data as 
-"Asset-Based Company Data" or ABCD.
+asset-level, it has already been aggregated to the company level, by ownership
+stake. In this sense, the data is not really at the "Asset-Level" but rather the
+"Company-Level". We therefor consider "Asset-Based Company Data" it to be a more 
+accurate name for the data provided. 
